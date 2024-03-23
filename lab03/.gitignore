@@ -1,0 +1,9 @@
+results/
+data/
+logs/
+training_data/
+__pycache__/
+.idea/
+.ipynb_checkpoints/
+*.pyc
+train.out
