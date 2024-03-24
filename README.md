@@ -17,3 +17,4 @@ In the Future must explore adding Megatron-Deepspeed DDP methods as well model-p
 - Must configure Docker Compose and the Entrypoint.sh scripts.
 - Develop a simple Terraform and Ansible automation to facilitate Cloud deployment.
 - GPU cluster configuration is missing.
+- Design proper testing to validate code that works as automated grading to replace the assessment_runner.
