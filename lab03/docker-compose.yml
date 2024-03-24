@@ -1,0 +1,47 @@
+version: '2.3'
+
+volumes:
+  task_volume:
+  assessment_results:
+
+services:
+
+  lab:
+    runtime: nvidia
+    init: true
+    volumes:
+      - task_volume:/dli/task/
+      - assessment_results:/dli/task/results
+
+    privileged: true
+    shm_size: 1g
+    ulimits:
+      memlock: -1
+      stack: 67108864
+
+    environment:
+      - JUPYTER_TOKEN
+      - TENSORBOARD_URL_PREFIX=/tensorboard
+      - PYTHONWARNINGS=ignore
+
+  assessment:
+    depends_on:
+      - lab
+
+    runtime: nvidia
+    init: true
+
+    privileged: true
+    shm_size: 1g
+    ulimits:
+      memlock: -1
+      stack: 67108864
+
+    volumes:
+      - task_volume:/dli/task/
+      - assessment_results:/dli/assessment_results
+              
+  nginx:
+    image: nginx:1.15.12-alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf

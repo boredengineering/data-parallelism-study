@@ -1,0 +1,36 @@
+version: '2.3'
+
+services:
+
+  lab:
+    build: .
+    volumes:
+      - ./task/:/dli/task/
+
+  assessment:
+    build: .
+    volumes:
+      - ./task/:/dli/task/
+    ports:
+      - $DEV_ASSESSMENT_PORT:8080
+
+  nginx:
+    ports:
+      - $DEV_NGINX_PORT:80
+
+  lt_server:
+    # This image is a vendored copy of erikvl87/languagetool:latest - see
+    # https://hub.docker.com/layers/erikvl87/languagetool/latest/images/sha256-8a5a3d3ecb7710d4950f74238659b343ecb5596777b664475ddcd0039af3237f?context=explore
+    image: 224292665285.dkr.ecr.us-east-1.amazonaws.com/languagetool:v1.0.0
+    init: true
+
+  gramma:
+    # This image is built via this repository.
+    image: 224292665285.dkr.ecr.us-east-1.amazonaws.com/gramma:v1.1.0
+    init: true
+    environment:
+      # This variable should be set equal to the name of the service defined in this file
+      # running the `languagetool` server.
+      - LT_SERVER_HOST=lt_server
+    volumes:
+      - ./:/workdir/

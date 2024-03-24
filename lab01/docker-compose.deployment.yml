@@ -1,0 +1,9 @@
+version: '2.3'
+services:
+  lab:
+    image: c-mg-01-v3-task1:v1.2.0
+  nginx:
+    ports:
+    - 80:80
+    depends_on:
+    - lab
